@@ -17,11 +17,12 @@ public class RestSync {
                 .build();
 
         AtletaService atletaService = retrofit.create(AtletaService.class);
+        MedallaService medallaService = retrofit.create(MedallaService.class);
 
 
         //EJ GET ALL ATLETAS
 
-        Call<List<Atleta>> call = atletaService.getAllAtletas();
+        /*Call<List<Atleta>> call = atletaService.getAllAtletas();
         Response<List<Atleta>> response = call.execute();
 
         if (response.isSuccessful()){
@@ -86,6 +87,33 @@ public class RestSync {
         if (responseAtleta.isSuccessful()){
             System.out.println("GET ONE->Status code: " + responseAtleta.code()
                     + " Atleta: " + responseAtleta.body());
+        }*/
+
+        //CONSULTAS
+
+        String nacionalidad = "Mundo";
+        Call<List<Atleta>> call1 = atletaService.findByNacionalidad(nacionalidad);
+        Response<List<Atleta>> response1 = call1.execute();
+
+        if (response1.isSuccessful()){
+            List<Atleta> atletaList = response1.body();
+            System.out.println("Status code: " + response1.code() + System.lineSeparator()
+                    + "GET Atletas Nacionalidad = Mundo: " + atletaList);
+        }else {
+            System.out.println("Status code: " + response1.code() + " Message error: " + response1.errorBody());
         }
+
+        String fecha = "08-05-1995";
+        Call<List<Atleta>> call2 = atletaService.findByNacimientoAntes(fecha);
+        Response<List<Atleta>> response2 = call2.execute();
+
+        if (response2.isSuccessful()){
+            List<Atleta> atletaList = response2.body();
+            System.out.println("Status code: " + response2.code() + System.lineSeparator()
+                    + "GET Atletas Fecha de nacimiento anterior a 08-05-1995: " + atletaList);
+        }else {
+            System.out.println("Status code: " + response2.code() + " Message error: " + response2.errorBody());
+        }
+
     }
 }
