@@ -6,6 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class RestSync {
     private static Retrofit retrofit;
@@ -114,6 +115,29 @@ public class RestSync {
         }else {
             System.out.println("Status code: " + response2.code() + " Message error: " + response2.errorBody());
         }
+
+        Call<Map<String, List<Atleta>>> call3 = atletaService.findByNacionalidadMap();
+        Response<Map<String, List<Atleta>>> response3 = call3.execute();
+
+        if (response3.isSuccessful()){
+            Map<String, List<Atleta>> atletaList = response3.body();
+            System.out.println("Status code: " + response3.code() + System.lineSeparator()
+                    + "GET Atletas agrupados por nacionalidad: " + atletaList);
+        }else {
+            System.out.println("Status code: " + response3.code() + " Message error: " + response3.errorBody());
+        }
+
+        Call<Map<TipoMedalla, List<Medalla>>> call4 = medallaService.findByTipoMedalla();
+        Response<Map<TipoMedalla, List<Medalla>>> response4 = call4.execute();
+
+        if (response4.isSuccessful()){
+            Map<TipoMedalla, List<Medalla>> medallaListMap = response4.body();
+            System.out.println("Status code: " + response4.code() + System.lineSeparator()
+                    + "GET Atletas agrupados por medallas: " + medallaListMap);
+        }else {
+            System.out.println("Status code: " + response4.code() + " Message error: " + response4.errorBody());
+        }
+
 
     }
 }
